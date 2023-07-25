@@ -27,6 +27,9 @@ public class ArbolContactos {
         }
     }
 
+    public Node getRoot() {
+        return raiz;
+    }
     private void insertResursivo(Node node, Contacto newContacto) {
         if (newContacto.getNombre().compareTo(node.getContacto().getNombre()) < 0) {
             if (node.getIzquierda() == null) {
@@ -43,6 +46,25 @@ public class ArbolContactos {
         } else {
             //Si el contacto es igual a uno existente
         }
+    }
+    
+    
+    public void inorderRecursivo(Node node) {
+        if (node != null) {
+            inorderRecursivo(node.getIzquierda());
+            System.out.print(node.getContacto() + " - ");
+            inorderRecursivo(node.getDerecha());
+
+        }
+    }
+    
+    public void printTreeNode(Node root, String prefix, boolean isLeft) {
+        if (root != null) {
+            System.out.println(prefix + (isLeft ? "├── " : "└── ") + root.getContacto());
+            printTreeNode(root.getIzquierda(), prefix + (isLeft ? "│   " : "    "), true);
+            printTreeNode(root.getDerecha(), prefix + (isLeft ? "│   " : "    "), false);
+        }
+
     }
 
     public boolean estaEquilibrado() {
@@ -75,6 +97,84 @@ public class ArbolContactos {
         int alturaDerecha = obtenerAltura(node.getDerecha());
 
         return Math.max(alturaIzquierda, alturaDerecha) + 1;
+    }
+    
+    //// [Eliminar un nodo]
+
+    public void eliminarContacto(String nombre) {
+        
+        raiz = eliminarContactoRec(raiz, nombre);
+    }
+
+    public Node eliminarContactoRec(Node nodo, String nombre) {
+        // Caso base: si el nodo es nulo, no se puede eliminar
+        if (nodo == null) {
+            return nodo;
+        }
+
+        // Buscar el nodo a eliminar según el nombre del contacto
+        if (nombre.compareTo(nodo.getContacto().getNombre()) < 0) {
+            // Si el nombre es menor, buscar en el subárbol izquierdo
+            nodo.setIzquierda(eliminarContactoRec(nodo.getIzquierda(), nombre));
+        } else if (nombre.compareTo(nodo.getContacto().getNombre()) > 0) {
+            // Si el nombre es mayor, buscar en el subárbol derecho
+            nodo.setDerecha(eliminarContactoRec(nodo.getDerecha(), nombre));
+        } else {
+            // Si el nombre coincide, este es el nodo a eliminar
+
+            // Caso 1: nodo sin hijos o con un solo hijo
+            if (nodo.getIzquierda() == null) {
+                return nodo.getDerecha();
+            } else if (nodo.getDerecha() == null) {
+                return nodo.getIzquierda();
+            }
+
+            // Caso 2: nodo con dos hijos
+            // Encontrar el nodo sucesor más pequeño en el subárbol derecho o el nodo
+            // predecesor más grande en el subárbol izquierdo
+            Node sucesor = encontrarMinimo(nodo.getDerecha());
+            nodo.setContacto(sucesor.getContacto());
+
+            // Eliminar el sucesor encontrado
+            nodo.setDerecha(eliminarContactoRec(nodo.getDerecha(), sucesor.getContacto().getNombre()));
+        }
+
+        return nodo;
+    }
+
+    private Node encontrarMinimo(Node root) {
+        while (root.getIzquierda() != null) {
+            root = root.getIzquierda();
+        }
+        return root;
+    }
+    
+    public Contacto buscarContacto(String nombre) {
+        Node nodoBuscar = buscarRecursivo(raiz, nombre);
+        if (nodoBuscar != null){
+            return nodoBuscar.getContacto();
+        }
+        return null;
+    }
+    
+    public Node buscarRecursivo (Node nodo ,String nombre){
+        // Caso base: si el nodo es nulo, no se puede eliminar
+        if (nodo == null) {
+            return nodo;
+        }    
+        // Buscar el nodo según el nombre del contacto
+        if (nombre.compareTo(nodo.getContacto().getNombre()) < 0) {
+            // Si el nombre es menor, buscar en el subárbol izquierdo
+            nodo.setIzquierda(buscarRecursivo(nodo.getIzquierda(), nombre));
+        } else if (nombre.compareTo(nodo.getContacto().getNombre()) > 0) {
+            // Si el nombre es mayor, buscar en el subárbol derecho
+            nodo.setDerecha(eliminarContactoRec(nodo.getDerecha(), nombre));
+        } else {
+            // Si el nombre coincide, este es el nodo que se devuelve
+            return nodo;
+        }
+        return null;
+        
     }
 
 }
