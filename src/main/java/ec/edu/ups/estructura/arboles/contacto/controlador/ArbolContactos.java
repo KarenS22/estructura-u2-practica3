@@ -6,6 +6,9 @@ package ec.edu.ups.estructura.arboles.contacto.controlador;
 
 import ec.edu.ups.estructura.arboles.contacto.modelo.Contacto;
 import ec.edu.ups.estructura.arboles.contacto.modelo.Node;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Stack;
 
 /**
  *
@@ -30,6 +33,7 @@ public class ArbolContactos {
     public Node getRoot() {
         return raiz;
     }
+
     private void insertResursivo(Node node, Contacto newContacto) {
         if (newContacto.getNombre().compareTo(node.getContacto().getNombre()) < 0) {
             if (node.getIzquierda() == null) {
@@ -47,8 +51,7 @@ public class ArbolContactos {
             //Si el contacto es igual a uno existente
         }
     }
-    
-    
+
     public void inorderRecursivo(Node node) {
         if (node != null) {
             inorderRecursivo(node.getIzquierda());
@@ -58,13 +61,68 @@ public class ArbolContactos {
         }
     }
     
+    public int pesoArbol(Node node) {
+        if (node != null) {
+            return 1 + pesoArbol(node.getIzquierda()) + pesoArbol(node.getDerecha());
+        }
+        return 0;
+    }
+
+    public void preOrderRecursivo(Node node) {
+        if (node != null) {
+            System.out.print(node.getContacto() + " - ");
+            inorderRecursivo(node.getIzquierda());
+            inorderRecursivo(node.getDerecha());
+
+        }
+    }
+
+    public void postORderRecursivo(Node node) {
+        if (node != null) {
+            inorderRecursivo(node.getIzquierda());
+
+            inorderRecursivo(node.getDerecha());
+            System.out.print(node.getContacto() + " - ");
+
+        }
+    }
+
+    public void printNivel(Node node) {
+        if (node != null) {
+            System.out.println(node.getContacto());
+            printNivel(node.getIzquierda());
+            printNivel(node.getDerecha());
+
+        }
+    }
+
+    Queue<Node> queue = new LinkedList<>();
+
+    public void breadth(Node root) {
+        if (root == null) {
+            return;
+        }
+        queue.clear();
+        queue.add(root);
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
+            System.out.print(node.getContacto() + " ");
+            if (node.getIzquierda() != null) {
+                queue.add(node.getIzquierda());
+            }
+            if (node.getDerecha() != null) {
+                queue.add(node.getDerecha());
+            }
+        }
+
+    }
+
     public void printTreeNode(Node root, String prefix, boolean isLeft) {
         if (root != null) {
-            System.out.println(prefix + (isLeft ? "├── " : "└── ") + root.getContacto());
+            System.out.println(prefix + (isLeft ? "|-- " : " |-- ") + root.getContacto());
             printTreeNode(root.getIzquierda(), prefix + (isLeft ? "│   " : "    "), true);
             printTreeNode(root.getDerecha(), prefix + (isLeft ? "│   " : "    "), false);
         }
-
     }
 
     public boolean estaEquilibrado() {
@@ -84,25 +142,23 @@ public class ArbolContactos {
         if (diferencia > 1) {
             return false;
         }
-        
+
         return verificarBalance(node.getIzquierda()) && verificarBalance(node.getDerecha());
     }
 
-    private int obtenerAltura(Node node) {
+    public int obtenerAltura(Node node) {
         if (node == null) {
             return 0;
         }
-
         int alturaIzquierda = obtenerAltura(node.getIzquierda());
         int alturaDerecha = obtenerAltura(node.getDerecha());
 
         return Math.max(alturaIzquierda, alturaDerecha) + 1;
     }
-    
-    //// [Eliminar un nodo]
 
+    //// [Eliminar un nodo]
     public void eliminarContacto(String nombre) {
-        
+
         raiz = eliminarContactoRec(raiz, nombre);
     }
 
@@ -148,20 +204,20 @@ public class ArbolContactos {
         }
         return root;
     }
-    
+
     public Contacto buscarContacto(String nombre) {
         Node nodoBuscar = buscarRecursivo(raiz, nombre);
-        if (nodoBuscar != null){
+        if (nodoBuscar != null) {
             return nodoBuscar.getContacto();
         }
         return null;
     }
-    
-    public Node buscarRecursivo (Node nodo ,String nombre){
+
+    public Node buscarRecursivo(Node nodo, String nombre) {
         // Caso base: si el nodo es nulo, no se puede eliminar
         if (nodo == null) {
             return nodo;
-        }    
+        }
         // Buscar el nodo según el nombre del contacto
         if (nombre.compareTo(nodo.getContacto().getNombre()) < 0) {
             // Si el nombre es menor, buscar en el subárbol izquierdo
@@ -174,7 +230,7 @@ public class ArbolContactos {
             return nodo;
         }
         return null;
-        
+
     }
 
 }

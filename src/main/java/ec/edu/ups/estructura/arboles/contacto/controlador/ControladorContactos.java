@@ -7,6 +7,8 @@ package ec.edu.ups.estructura.arboles.contacto.controlador;
 import ec.edu.ups.estructura.arboles.contacto.modelo.Contacto;
 import ec.edu.ups.estructura.arboles.contacto.modelo.Node;
 import ec.edu.ups.estructura.arboles.contacto.vista.Vista;
+import java.util.LinkedList;
+import java.util.Map;
 
 /**
  *
@@ -48,10 +50,14 @@ public class ControladorContactos {
                     vista.mostrarMenuImprimir();
                     break;
                 case 7:
-                    
+                    vista.mostrarMensaje("PESO DEL ARBOL");
+                    int peso = arbolContactos.pesoArbol(arbolContactos.getRoot());
+                    vista.mostrarMensaje("El peso del arbol es de " + peso);
                     break;
                 case 8:
-
+                    vista.mostrarMensaje("NIVELES DEL ARBOL");
+                    int nivel = arbolContactos.obtenerAltura(arbolContactos.getRoot());
+                    vista.mostrarMensaje("El nivel del arbol es de " + nivel);
                     break;
                 case 0:
                     vista.mostrarMensaje("Saliendo del programa...");
@@ -69,8 +75,6 @@ public class ControladorContactos {
         String telefono = vista.pedirTelefono();
         arbolContactos.insert(new Contacto(nombre, telefono));
         vista.mostrarMensaje("Ingreso exitoso! :) ");
-        Node root = arbolContactos.getRoot();
-        arbolContactos.printTreeNode(root, "", true);
     }
 
     public void buscarContacto() {
@@ -78,7 +82,7 @@ public class ControladorContactos {
         String nombre = vista.pedirNombreBuscar();
         Contacto contacto = arbolContactos.buscarContacto(nombre);
         if (contacto != null) {
-            vista.mostrarMensaje(contacto.toString());
+            imprimirContacto(contacto);
         } else {
             vista.mostrarMensaje("El contacto con nombre: " + nombre + " no existe");
             vista.mostrarMensaje("¿Desea ingresar un nuevo contacto con el nombre: " + nombre + " ?");
@@ -88,6 +92,24 @@ public class ControladorContactos {
                 ingresarC(nombre);
             }
         }
+    }
+    
+    private void imprimirContacto(Contacto contacto){
+        vista.mostrarMensaje("CONTACTO: \n  nombre: " + contacto.getNombre() + "\n  telefono: " + contacto.getNumeroTelefonico());
+        LinkedList<String> correos = contacto.getCorreos();
+        vista.mostrarMensaje("  correos: ");
+        for (String correo : correos) {
+            vista.mostrarMensaje("      "+correo);
+        }
+        Map<String ,String> redSociales = contacto.getRedSociales();
+        vista.mostrarMensaje("  redes sociales: ");
+        for (Map.Entry<String, String> entry : redSociales.entrySet()) {
+            Object key = entry.getKey();
+            Object val = entry.getValue();
+            vista.mostrarMensaje("      "+key + ": " + val);
+        }
+        
+        
     }
 
     public void ingresarC(String nombre) {
@@ -146,16 +168,21 @@ public class ControladorContactos {
             switch (opcionImprimir) {
                 case 1:
                     ////ingresarContacto();
-                    System.out.println("CASO 1");
+                    System.out.println("PREORDER");
+                    arbolContactos.preOrderRecursivo(arbolContactos.getRoot());
                     break;
                 case 2:
-                    System.out.println("CASO 1");
+                    System.out.println("INORDER");
+                    arbolContactos.inorderRecursivo(arbolContactos.getRoot());
                     break;
                 case 3:
-                    System.out.println("CASO 1");
+                    System.out.println("POST ORDER");
+                    arbolContactos.postORderRecursivo(arbolContactos.getRoot());
                     break;
                 case 4:
-                    System.out.println("CASO 1");
+                    System.out.println("ANCHURA");
+                    //arbolContactos.printNivel(arbolContactos.getRoot());
+                    arbolContactos.breadth(arbolContactos.getRoot());
                     break;
                 case 0:
                     vista.mostrarMensaje("Volviendo al menu principal...");
@@ -166,6 +193,8 @@ public class ControladorContactos {
             }
         }
     }
+    
+    
     
 
 }

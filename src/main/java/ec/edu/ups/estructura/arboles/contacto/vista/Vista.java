@@ -27,7 +27,7 @@ public class Vista {
         System.out.println("3. Eliminar contacto por el nombre");
         System.out.println("4. Agregar un correo");
         System.out.println("5. Agregar una red social");
-        System.out.println("6. Imprimir el arbol");
+        System.out.println("6. Imprimir el arbol segun el recorrido: ");
         System.out.println("7. Obtener el numero de contactos totales");
         System.out.println("8. Obtener el numero de niveles del arbol");
         System.out.println("0. Salir");
@@ -40,7 +40,7 @@ public class Vista {
     
         public int mostrarMenuImprimir() {
         //menu
-        System.out.println("    ===== MENU IMPRIMIR ARBOL =====");
+        System.out.println("    ===== MENU IMPRIMIR ARBOL SEGUN EL RECORRIDO: =====");
         System.out.println("    1. Preorder");
         System.out.println("    2. Inorder");
         System.out.println("    3. PostOrder");
@@ -53,7 +53,7 @@ public class Vista {
     }
 
     public int pedirOpcion() {
-        System.out.println("Ingrese el numero de ticket: ");
+        System.out.println("Ingrese la opcion deseada: ");
         return scanner.nextInt();
     }
     

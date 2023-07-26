@@ -16,7 +16,7 @@ import ec.edu.ups.estructura.arboles.contacto.vista.Vista;
 public class EstructuraArbolesContacto {
 
     public static void main(String[] args) {
-      /*  ArbolContactos arbol = new ArbolContactos();
+        ArbolContactos arbol = new ArbolContactos();
         
         Contacto contacto1 = new Contacto("Juan", "123456789");
         Contacto contacto2 = new Contacto("Maria", "987654321");
@@ -26,22 +26,31 @@ public class EstructuraArbolesContacto {
         arbol.insert(contacto1);
         arbol.insert(contacto2);
         arbol.insert(contacto3);
-        arbol.insert(contacto4);
+        //arbol.insert(contacto4);
         arbol.insert(new Contacto("Julian", "5789123"));
         arbol.insert(new Contacto("Jhon", "567823"));
         arbol.insert(new Contacto("Jhonn", "5789123"));
         
         arbol.printTreeNode(arbol.getRoot(), "", true);
         
-        arbol.eliminarContacto("Jhonn");
-        
-        arbol.printTreeNode(arbol.getRoot(), "", true);
+        arbol.inorderRecursivo(arbol.getRoot());
+        System.out.println("-----------------------");
+        arbol.preOrderRecursivo(arbol.getRoot());
+        System.out.println("----------------------------");
+        arbol.postORderRecursivo(arbol.getRoot());
+        System.out.println("-----------------------------------------------------");
+        arbol.breadth(arbol.getRoot());
+        System.out.println("-----------------------------------------------------");
+        System.out.println(arbol.pesoArbol(arbol.getRoot()));
+        System.out.println("-----------------------------------------------------");
+        System.out.println(arbol.obtenerAltura(arbol.getRoot()));
+        //arbol.printTreeNode(arbol.getRoot(), "", true);
         
        // arbol.inorderRecursivo(arbol.getRoot());
-       */
-      Vista vista = new Vista();
+       
+      /*Vista vista = new Vista();
         ControladorContactos controlador = new ControladorContactos(vista);
         controlador.iniciar();
-
+*/
     }
 }

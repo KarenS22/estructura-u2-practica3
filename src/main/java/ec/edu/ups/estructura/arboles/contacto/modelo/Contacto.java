@@ -51,9 +51,41 @@ public class Contacto {
         this.numeroTelefonico = numeroTelefonico;
     }
 
+    public LinkedList<String> getCorreos() {
+        return correos;
+    }
+
+    public void setCorreos(LinkedList<String> correos) {
+        this.correos = correos;
+    }
+
+    public Map<String, String> getRedSociales() {
+        return redSociales;
+    }
+
+    public void setRedSociales(Map<String, String> redSociales) {
+        this.redSociales = redSociales;
+    }
+    
+    
+    public void imprimir (){
+        System.out.println("  correos: ");
+        for (String correo : correos) {
+            System.out.println("      "+correo);
+        }
+        System.out.println("  redes sociales: ");
+        for (Map.Entry<String, String> entry : redSociales.entrySet()) {
+            Object key = entry.getKey();
+            Object val = entry.getValue();
+            System.out.println("      "+key + ": " + val);
+        }
+        
+    }
+
+
     @Override
     public String toString() {
-        return "Contacto{" + "nombre=" + nombre + ", numeroTelefonico=" + numeroTelefonico + ", correos=" + correos + ", redSocial=" + redSociales + '}';
+        return "CONTACTO: nombre: " + nombre + " telefono: " + numeroTelefonico + " correos: " + correos + " redes sociales: " + redSociales +"\n";
     }
         
 }
